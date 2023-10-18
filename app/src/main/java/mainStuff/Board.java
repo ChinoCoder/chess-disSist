@@ -1,8 +1,7 @@
 package mainStuff;
 
-import Exceptions.IllegalMoveException;
-
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
     private final Map<Square, Piece> board;
@@ -15,21 +14,19 @@ public class Board {
         return board;
     }
 
-    public Board move(Square start, Square end) throws IllegalMoveException {
+    public Result<Board, Boolean> move(Square start, Square end) {
         Piece piece = board.get(start);
         if (piece == null) {
-            throw new IllegalMoveException("No piece at start square");
+            return new Result<>(Optional.empty(), true);
         }
         else {
-            for (MovementValidator validator : piece.getMovements()) {
-                if (validator.validateMove(this, start, end)) {
-                    Map<Square, Piece> newBoard = board;
-                    newBoard.put(start, null);
-                    newBoard.put(end, piece);
-                    return new Board(newBoard);
-                }
+            if (piece.getMovements().isValid(this, start, end)) {
+                Map<Square, Piece> newBoard = board;
+                newBoard.put(start, null);
+                newBoard.put(end, piece);
+                return new Result<>(Optional.of(new Board(newBoard)), false);
             }
         }
-        throw new IllegalMoveException("Invalid move");
+        return new Result<>(Optional.empty(), true);
     }
 }

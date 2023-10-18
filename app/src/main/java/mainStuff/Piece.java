@@ -1,25 +1,29 @@
 package mainStuff;
 
-public abstract class Piece {
-    private final String name;
-    private final Color color;
-    private final MovementValidator[] movements;
+import mainStuff.Validators.AndValidator;
 
-    public Piece(String name, Color color, MovementValidator[] movements) {
-        this.name = name;
+public abstract class Piece {
+    private final int id;
+    private final Type type;
+    private final Color color;
+    private final AndValidator movements;
+
+    public Piece(int id, Type type, Color color, AndValidator movements) {
+        this.id = id;
+        this.type = type;
         this.color = color;
         this.movements = movements;
     }
 
-    public String getName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public MovementValidator[] getMovements() {
+    public AndValidator getMovements() {
         return movements;
     }
 

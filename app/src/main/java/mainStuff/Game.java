@@ -3,6 +3,7 @@ package mainStuff;
 import Exceptions.IllegalMoveException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Game {
     private final List<Board> turns;
@@ -24,19 +25,23 @@ public class Game {
         this.capturedPieces = capturedPieces;
     }
 
-    public Game move(Square start, Square end) throws IllegalMoveException {
+    public Result<Game, Boolean> move(Square start, Square end) throws IllegalMoveException {
         if (getPieceAt(start).getColor() != getCurrentTurnColor()) {
-            throw new IllegalMoveException("Not your turn");
+            return new Result<>(Optional.empty(), true);
         }
-        Board newBoard = getCurrentTurn().move(start, end);
+        Result<Board, Boolean> result = getCurrentTurn().move(start, end);
         List<Board> newTurns = new java.util.ArrayList<>(List.copyOf(turns));
+        if (result.getError()){
+            return new Result<>(Optional.empty(), true);
+        }
+        Board newBoard = result.getValue().get();
         newTurns.add(newBoard);
         if (newBoard.getBoard().get(end) != null) {
             List<Piece> newCapturedPieces = new java.util.ArrayList<>(List.copyOf(capturedPieces));
             newCapturedPieces.add(newBoard.getBoard().get(end));
-            return new Game(newTurns, newCapturedPieces);
+            return new Result<>(Optional.of(new Game(newTurns, newCapturedPieces)), false);
         }
-        else { return new Game(newTurns); }
+        else { return new Result<>(Optional.of(new Game(newTurns)), false); }
     }
 
     public Board getCurrentTurn() {
