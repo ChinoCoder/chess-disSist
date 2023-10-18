@@ -1,37 +1,35 @@
 package mainStuff;
 
-import implementedChess.Square;
+import Exceptions.IllegalMoveException;
 
-import java.util.List;
+import java.util.Map;
 
 public class Board {
-    private final Position[] positions;
-    private final List<Piece> TakenPieces;
+    private final Map<Square, Piece> board;
 
-    protected Board(Position[] positions, List<Piece> takenPieces) {
-        this.positions = positions;
-        TakenPieces = takenPieces;
+    public Board(Map<Square, Piece> board) {
+        this.board = board;
     }
 
-    public Board(int rows, int columns) {
-        Position[] positions = new Position[rows * columns];
-        for (int i = 0; i < positions.length; i++) {
-            positions[i] = new Square(i / columns, i % columns);
+    public Map<Square, Piece> getBoard() {
+        return board;
+    }
+
+    public Board move(Square start, Square end) throws IllegalMoveException {
+        Piece piece = board.get(start);
+        if (piece == null) {
+            throw new IllegalMoveException("No piece at start square");
         }
-        this.positions = positions;
-        TakenPieces = new java.util.ArrayList<>();
-    }
-
-    public Position[] getPositions() {
-        return positions;
-    }
-    public List<Piece> getTakenPieces() {
-        return TakenPieces;
-    }
-    public Position getPosition(int row, int column) {
-        return positions[row * 8 + column];
-    }
-    public boolean checkIfPositionExists(int row, int column) {
-        return row >= 0 && row < 8 && column >= 0 && column < 8;
+        else {
+            for (MovementValidator validator : piece.getMovements()) {
+                if (validator.validateMove(this, start, end)) {
+                    Map<Square, Piece> newBoard = board;
+                    newBoard.put(start, null);
+                    newBoard.put(end, piece);
+                    return new Board(newBoard);
+                }
+            }
+        }
+        throw new IllegalMoveException("Invalid move");
     }
 }

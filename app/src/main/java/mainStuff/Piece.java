@@ -1,35 +1,26 @@
 package mainStuff;
 
-import mainStuff.Color;
-import mainStuff.Movement;
-
-import java.util.List;
-
 public abstract class Piece {
-    private final List<Movement> movements;
+    private final String name;
     private final Color color;
-    private final boolean hasMoved;
+    private final MovementValidator[] movements;
 
-    public Piece(Color color, List<Movement> moveList){
+    public Piece(String name, Color color, MovementValidator[] movements) {
+        this.name = name;
         this.color = color;
-        this.movements = moveList;
-        this.hasMoved = false;
+        this.movements = movements;
     }
 
-    private Piece(Color color, List<Movement> moveList, boolean hasMoved){
-        this.color = color;
-        this.movements = moveList;
-        this.hasMoved = hasMoved;
+    public String getName() {
+        return name;
     }
 
-    public List<Movement> getMovements() {
-        return movements;
-    }
     public Color getColor() {
         return color;
     }
-    public boolean HasMoved() {
-        return hasMoved;
+
+    public MovementValidator[] getMovements() {
+        return movements;
     }
 
 }
