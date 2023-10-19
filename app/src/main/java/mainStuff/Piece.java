@@ -1,14 +1,15 @@
 package mainStuff;
 
 import mainStuff.Validators.AndValidator;
+import mainStuff.Validators.OrValidator;
 
-public abstract class Piece {
+public class Piece {
     private final int id;
     private final Type type;
     private final Color color;
-    private final AndValidator movements;
+    private final OrValidator movements;
 
-    public Piece(int id, Type type, Color color, AndValidator movements) {
+    public Piece(int id, Type type, Color color, OrValidator movements) {
         this.id = id;
         this.type = type;
         this.color = color;
@@ -23,8 +24,12 @@ public abstract class Piece {
         return color;
     }
 
-    public AndValidator getMovements() {
+    public OrValidator getMovements() {
         return movements;
+    }
+
+    public int getId() {
+        return id;
     }
 
 }

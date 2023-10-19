@@ -25,7 +25,7 @@ public class Game {
         this.capturedPieces = capturedPieces;
     }
 
-    public Result<Game, Boolean> move(Square start, Square end) throws IllegalMoveException {
+    public Result<Game, Boolean> move(Square start, Square end){
         if (getPieceAt(start).getColor() != getCurrentTurnColor()) {
             return new Result<>(Optional.empty(), true);
         }
@@ -35,6 +35,9 @@ public class Game {
             return new Result<>(Optional.empty(), true);
         }
         Board newBoard = result.getValue().get();
+        if (newBoard.isKingChecked(getCurrentTurnColor())) {
+            return new Result<>(Optional.empty(), true);
+        }
         newTurns.add(newBoard);
         if (newBoard.getBoard().get(end) != null) {
             List<Piece> newCapturedPieces = new java.util.ArrayList<>(List.copyOf(capturedPieces));
