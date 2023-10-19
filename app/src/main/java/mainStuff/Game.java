@@ -55,4 +55,8 @@ public class Game {
     private Piece getPieceAt(Square square) {
         return getCurrentTurn().getBoard().get(square);
     }
+
+    public List<Board> getTurns() {
+        return turns;
+    }
 }

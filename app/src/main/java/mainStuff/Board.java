@@ -1,7 +1,9 @@
 package mainStuff;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Board {
     private final Map<Square, Piece> board;
@@ -28,5 +30,17 @@ public class Board {
             }
         }
         return new Result<>(Optional.empty(), true);
+    }
+
+    public boolean getIfSquareHasPieceByRowAndColumn(int targetRow, int targetColumn) {
+        for (Map.Entry<Square, Piece> entry : board.entrySet()) {
+            Square square = entry.getKey();
+            if (square.getRow() == targetRow && square.getColumn() == targetColumn) {
+                if (entry.getValue() != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
