@@ -1,10 +1,12 @@
-package mainStuff;
+package Games.Commons;
+
+import Games.Chess.Type;
 
 import java.util.Map;
 import java.util.Optional;
 
 public class Board {
-    private final Map<Square, Piece> board;
+        private final Map<Square, Piece> board;
     private final int rows;
     private final int columns;
 

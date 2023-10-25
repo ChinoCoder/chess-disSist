@@ -1,8 +1,8 @@
-package mainStuff.Validators.MovementValidators;
+package Games.Commons.Validators.MovementValidators;
 
-import mainStuff.Board;
-import mainStuff.Square;
-import mainStuff.Validators.Validator;
+import Games.Commons.Board;
+import Games.Commons.Square;
+import Games.Commons.Validators.Validator;
 
 public class TileMovementValidator implements Validator {
     private final int distance;

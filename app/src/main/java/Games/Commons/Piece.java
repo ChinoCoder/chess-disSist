@@ -1,7 +1,7 @@
-package mainStuff;
+package Games.Commons;
 
-import mainStuff.Validators.AndValidator;
-import mainStuff.Validators.OrValidator;
+import Games.Chess.Type;
+import Games.Commons.Validators.OrValidator;
 
 public class Piece {
     private final int id;

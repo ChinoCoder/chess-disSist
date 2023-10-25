@@ -1,8 +1,8 @@
-package mainStuff.Validators.RuleValidators;
+package Games.Chess.RuleValidators;
 
-import mainStuff.Board;
-import mainStuff.Square;
-import mainStuff.Validators.Validator;
+import Games.Commons.Board;
+import Games.Commons.Square;
+import Games.Commons.Validators.Validator;
 
 public class NonEatingValidator implements Validator {
     @Override

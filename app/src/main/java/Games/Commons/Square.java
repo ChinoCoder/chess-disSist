@@ -1,4 +1,4 @@
-package mainStuff;
+package Games.Commons;
 
 public class Square {
     private final int row;

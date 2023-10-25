@@ -1,13 +1,14 @@
 package GameEngine;
 
+import Games.Chess.RuleValidators.EatingValidator;
+import Games.Chess.RuleValidators.NonEatingValidator;
+import Games.Chess.Type;
+import Games.Commons.*;
+import Games.Commons.Validators.AndValidator;
+import Games.Commons.Validators.MovementValidators.*;
+import Games.Commons.Validators.OrValidator;
+import Games.Commons.Validators.Validator;
 import edu.austral.dissis.chess.gui.*;
-import mainStuff.*;
-import mainStuff.Validators.AndValidator;
-import mainStuff.Validators.MovementValidators.*;
-import mainStuff.Validators.OrValidator;
-import mainStuff.Validators.RuleValidators.EatingValidator;
-import mainStuff.Validators.RuleValidators.NonEatingValidator;
-import mainStuff.Validators.Validator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class gameEngine implements GameEngine {
 
         for (int row = 1; row <= 8; row++) {
             for (int column = 1; column <= 8; column++) {
-                squares[index] = new Square(column, row);
+                squares[index] = new Square(row, column);
                 index++;
             }
         }
@@ -103,6 +104,8 @@ public class gameEngine implements GameEngine {
         board.put(squares[62], new Piece(31, Type.KNIGHT, Color.BLACK, KnightVali));
         board.put(squares[63], new Piece(32, Type.ROOK, Color.BLACK, RookVali));
 
+        System.out.println(board);
+        System.out.println(board.get(squares[0]));
         return board;
     }
 }

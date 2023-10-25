@@ -1,9 +1,9 @@
-package mainStuff.Validators.RuleValidators;
+package Games.Chess.RuleValidators;
 
-import mainStuff.Board;
-import mainStuff.Square;
-import mainStuff.Type;
-import mainStuff.Validators.Validator;
+import Games.Commons.Board;
+import Games.Commons.Square;
+import Games.Chess.Type;
+import Games.Commons.Validators.Validator;
 
 public class CastlingValidator implements Validator {
 

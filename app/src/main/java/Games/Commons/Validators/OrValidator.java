@@ -1,7 +1,7 @@
-package mainStuff.Validators;
+package Games.Commons.Validators;
 
-import mainStuff.Board;
-import mainStuff.Square;
+import Games.Commons.Board;
+import Games.Commons.Square;
 
 public class OrValidator implements Validator{
     private final Validator[] validators;

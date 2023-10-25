@@ -1,4 +1,4 @@
-package mainStuff;
+package Games.Commons;
 
 import java.util.Optional;
 

@@ -1,10 +1,10 @@
 package GameEngine;
 
+import Games.Commons.*;
 import edu.austral.dissis.chess.gui.BoardSize;
 import edu.austral.dissis.chess.gui.ChessPiece;
 import edu.austral.dissis.chess.gui.Move;
 import edu.austral.dissis.chess.gui.PlayerColor;
-import mainStuff.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,11 @@ public class Adapter {
         List<ChessPiece> piecesInAdapter = new ArrayList<ChessPiece>();
         Map<Square, Piece> boardState = board.getBoard();
         boardState.forEach((position, piece) -> {
-            ChessPiece chessPiece= new ChessPiece(String.valueOf(piece.getId()),
+            if(piece!=null) {
+                ChessPiece chessPiece= new ChessPiece(String.valueOf(piece.getId()),
                     convertPlayerColor(piece.getColor()),convertPosition(position),piece.getType().toString().toLowerCase());
-            piecesInAdapter.add(chessPiece);
+                    piecesInAdapter.add(chessPiece);
+            }
         });
         return piecesInAdapter;
     }
