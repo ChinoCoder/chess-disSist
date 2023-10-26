@@ -2,11 +2,12 @@ package Games.Commons;
 
 import Games.Chess.Type;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class Board {
-        private final Map<Square, Piece> board;
+    private final Map<Square, Piece> board;
     private final int rows;
     private final int columns;
 
@@ -21,52 +22,31 @@ public class Board {
     }
 
     public Result<Board, Boolean> move(Square start, Square end) {
-        Piece piece = board.get(start);
+        Piece piece = getPieceAt(start);
         if (piece == null) {
             return new Result<>(Optional.empty(), true);
         }
-        else {
-            if (piece.getMovements().isValid(this, start, end)) {
-                Map<Square, Piece> newBoard = board;
-                newBoard.put(start, null);
-                newBoard.put(end, piece);
-                return new Result<>(Optional.of(new Board(newBoard, rows, columns)), false);
-            }
+        if (piece.getMovements().isValid(this, start, end)) {
+            Map<Square, Piece> newBoard = new HashMap<>(board);
+            newBoard.remove(start);
+            newBoard.put(end, piece);
+            return new Result<>(Optional.of(new Board(newBoard, rows, columns)), false);
         }
         return new Result<>(Optional.empty(), true);
     }
 
+    public Piece getPieceAt(Square square) {
+        return board.get(getSquareByRowAndColumn(square.getRow(), square.getColumn()));
+    }
+
     public boolean getIfSquareHasPieceByRowAndColumn(int targetRow, int targetColumn) {
+        return board.get(getSquareByRowAndColumn(targetRow, targetColumn)) != null;
+    }
+
+    public Square getSquareByRowAndColumn(int targetRow, int targetColumn) {
         for (Map.Entry<Square, Piece> entry : board.entrySet()) {
             Square square = entry.getKey();
             if (square.getRow() == targetRow && square.getColumn() == targetColumn) {
-                if (entry.getValue() != null) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isPieceChecked(Square target){
-        for (Map.Entry<Square, Piece> entry : board.entrySet()) {
-            Square square = entry.getKey();
-            if (!move(square, target).getError()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isKingChecked(Color color){
-        Square kingSquare = getKing(color);
-        return isPieceChecked(kingSquare);
-    }
-
-    private Square getKing(Color color){
-        for (Map.Entry<Square, Piece> entry : board.entrySet()) {
-            Square square = entry.getKey();
-            if (entry.getValue() != null && entry.getValue().getColor() == color && entry.getValue().getType() == Type.KING) {
                 return square;
             }
         }

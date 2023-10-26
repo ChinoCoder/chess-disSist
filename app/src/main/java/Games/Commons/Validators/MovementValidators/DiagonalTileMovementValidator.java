@@ -15,46 +15,7 @@ public class DiagonalTileMovementValidator implements Validator {
         int rowDistance = Math.abs(start.getRow() - end.getRow());
         int colDistance = Math.abs(start.getColumn() - end.getColumn());
 
-        if (rowDistance == colDistance && rowDistance == distance){
-            return CheckforPieceDiagonally(board, start, end);
-        }
-        return false;
-    }
-
-    static boolean CheckforPieceDiagonally(Board board, Square start, Square end) {
-        if (start.getRow() > end.getRow()){
-            if (start.getColumn() > end.getColumn()){
-                for (int i = start.getRow() - 1, j = start.getColumn() - 1; i > end.getRow(); i--, j--) {
-                    if (board.getIfSquareHasPieceByRowAndColumn(i, j)) {
-                        return false;
-                    }
-                }
-            }
-            else {
-                for (int i = start.getRow() - 1, j = start.getColumn() + 1; i > end.getRow(); i--, j++) {
-                    if (board.getIfSquareHasPieceByRowAndColumn(i, j)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        else {
-            if (start.getColumn() > end.getColumn()){
-                for (int i = start.getRow() + 1, j = start.getColumn() - 1; i < end.getRow(); i++, j--) {
-                    if (board.getIfSquareHasPieceByRowAndColumn(i, j)) {
-                        return false;
-                    }
-                }
-            }
-            else {
-                for (int i = start.getRow() + 1, j = start.getColumn() + 1; i < end.getRow(); i++, j++) {
-                    if (board.getIfSquareHasPieceByRowAndColumn(i, j)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return rowDistance == colDistance && rowDistance == distance;
     }
 
 }

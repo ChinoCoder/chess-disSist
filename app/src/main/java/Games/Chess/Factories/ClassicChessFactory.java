@@ -1,43 +1,29 @@
-package GameEngine;
+package Games.Chess.Factories;
 
 import Games.Chess.RuleValidators.EatingValidator;
+import Games.Chess.RuleValidators.IsNotFriendlyFireValidator;
 import Games.Chess.RuleValidators.NonEatingValidator;
 import Games.Chess.Type;
-import Games.Commons.*;
+import Games.Commons.Board;
+import Games.Commons.Color;
+import Games.Commons.Piece;
+import Games.Commons.Square;
 import Games.Commons.Validators.AndValidator;
 import Games.Commons.Validators.MovementValidators.*;
 import Games.Commons.Validators.OrValidator;
 import Games.Commons.Validators.Validator;
-import edu.austral.dissis.chess.gui.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class gameEngine implements GameEngine {
+public class ClassicChessFactory{
 
-    private final Map<Square, Piece> initboard = createClassicChessboard();
-    private final Board ClassicBoard = new Board(initboard, 8, 8);
-    private final Game ClassicGame = new Game(ClassicBoard);
-    @NotNull
-    @Override
-    public MoveResult applyMove(@NotNull Move move) {
-        Square[] ToFrom = Adapter.convertMove(move);
-        Result<Game, Boolean> result = ClassicGame.move(ToFrom[0], ToFrom[1]);
-        if (result.getError()){
-            return new InvalidMove("Invalid Move");
-        }
-        return new NewGameState(Adapter.getCurrentPieces(result.getValue().get().getCurrentTurn()), Adapter.getCurrentTurn(result.getValue().get()));
+    public static Board createBoard() {
+        return new Board(createMap(), 8, 8);
     }
 
-    @NotNull
-    @Override
-    public InitialState init() {
-        return new InitialState(Adapter.getBoardSize(ClassicGame.getCurrentTurn()), Adapter.getCurrentPieces(ClassicGame.getCurrentTurn()), Adapter.getCurrentTurn(ClassicGame));
-    }
-
-    private Map<Square, Piece> createClassicChessboard() {
-        Square[] squares = new Square[64]; // Chessboard has 64 squares
+    private static Map<Square, Piece> createMap(){
+        Square[] squares = new Square[64];
 
         int index = 0;
 
@@ -48,29 +34,27 @@ public class gameEngine implements GameEngine {
             }
         }
 
-        final AndValidator horMove = new AndValidator(new Validator[]{new HorizontalMovementValidator()});
-        final AndValidator verMove = new AndValidator(new Validator[]{new VerticalMovementValidator()});
-        final AndValidator diaMove = new AndValidator(new Validator[]{new DiagonalMovementValidator()});
-        final AndValidator diaOnlyOne = new AndValidator(new Validator[]{new DiagonalMovementValidator(), new TileMovementValidator(1)});
-        final AndValidator horOnlyOne = new AndValidator(new Validator[]{new HorizontalMovementValidator(), new TileMovementValidator(1)});
-        final AndValidator verOnlyOne = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(1)});
-        final AndValidator verOnlyOneNoEat = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(1), new NonEatingValidator()});
-        final AndValidator verOnlyTwoNoEat = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(2), new NonEatingValidator()}); // Only for the first move
-        final AndValidator diaOnlyOneEat = new AndValidator(new Validator[]{new DiagonalMovementValidator(), new TileMovementValidator(1), new EatingValidator()});
+        final AndValidator horMove = new AndValidator(new Validator[]{new HorizontalMovementValidator(), new PieceInHorizontalMovementValidator(), new IsNotFriendlyFireValidator()});
+        final AndValidator verMove = new AndValidator(new Validator[]{new VerticalMovementValidator(), new PieceInVerticalMovementValidator(), new IsNotFriendlyFireValidator()});
+        final AndValidator diaMove = new AndValidator(new Validator[]{new DiagonalMovementValidator(), new PieceInDiagonalMovementValidator(), new IsNotFriendlyFireValidator()});
+        final AndValidator diaOnlyOne = new AndValidator(new Validator[]{new DiagonalMovementValidator(), new TileMovementValidator(1), new IsNotFriendlyFireValidator()});
+        final AndValidator horOnlyOne = new AndValidator(new Validator[]{new HorizontalMovementValidator(), new TileMovementValidator(1), new IsNotFriendlyFireValidator()});
+        final AndValidator verOnlyOne = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(1), new IsNotFriendlyFireValidator()});
+        final AndValidator forwardOnlyOne = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(1), new ForwardMovementValidator(), new IsNotFriendlyFireValidator()});
+        final AndValidator forwardOnlyOneNoEat = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(1), new NonEatingValidator(), new ForwardMovementValidator(), new IsNotFriendlyFireValidator()});
+        final AndValidator forwardOnlyTwoNoEat = new AndValidator(new Validator[]{new VerticalMovementValidator(), new TileMovementValidator(2), new NonEatingValidator(), new PieceInVerticalMovementValidator(), new ForwardMovementValidator(), new IsNotFriendlyFireValidator()}); // Only for the first move
+        final AndValidator diaOnlyOneEatForward = new AndValidator(new Validator[]{new DiagonalMovementValidator(), new TileMovementValidator(1), new EatingValidator(), new ForwardMovementValidator(), new IsNotFriendlyFireValidator()});
 
         final OrValidator QueenVali = new OrValidator(new Validator[]{horMove, verMove, diaMove});
         final OrValidator RookVali = new OrValidator(new Validator[]{horMove, verMove});
         final OrValidator BishopVali = new OrValidator(new Validator[]{diaMove});
         final OrValidator KingVali = new OrValidator(new Validator[]{horOnlyOne, verOnlyOne, diaOnlyOne});
-        final OrValidator KnightVali = new OrValidator(new Validator[]{new HorseJumpValidator()});
-        final OrValidator PawnVali = new OrValidator(new Validator[]{verOnlyOneNoEat, verOnlyTwoNoEat, diaOnlyOneEat});
+        final OrValidator KnightVali = new OrValidator(new Validator[]{new AndValidator(new Validator[]{new HorseJumpValidator(), new IsNotFriendlyFireValidator()})});
+        final OrValidator PawnVali = new OrValidator(new Validator[]{forwardOnlyOneNoEat, forwardOnlyTwoNoEat, diaOnlyOneEatForward});
 
 
         Map<Square, Piece> board = new HashMap<>();
-        for (Square square : squares) {
-            board.put(square, null);
-        }
-        // Add the initial chess pieces
+
         board.put(squares[0], new Piece(1, Type.ROOK, Color.WHITE, RookVali));
         board.put(squares[1], new Piece(2, Type.KNIGHT, Color.WHITE, KnightVali));
         board.put(squares[2], new Piece(3, Type.BISHOP, Color.WHITE, BishopVali));
@@ -104,8 +88,6 @@ public class gameEngine implements GameEngine {
         board.put(squares[62], new Piece(31, Type.KNIGHT, Color.BLACK, KnightVali));
         board.put(squares[63], new Piece(32, Type.ROOK, Color.BLACK, RookVali));
 
-        System.out.println(board);
-        System.out.println(board.get(squares[0]));
         return board;
     }
 }
