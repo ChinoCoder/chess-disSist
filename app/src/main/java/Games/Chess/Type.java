@@ -1,5 +1,5 @@
 package Games.Chess;
 
 public enum Type {
-    PAWN,ROOK,KNIGHT,BISHOP,QUEEN,KING
+    PAWN,ROOK,KNIGHT,BISHOP,QUEEN,KING,ARCHBISHOP
 }
