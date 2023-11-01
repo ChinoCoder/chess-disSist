@@ -9,27 +9,31 @@ public class Game {
     private final List<Board> turns;
     private final List<Piece> capturedPieces;
     private final GameRuleValidator gameRuleValidator;
+    private final GameRuleValidator gameEndValidator;
 
     private final Color currentTurn;
 
-    public Game(Board board, GameRuleValidator gameRuleValidator, Color turn) {
+    public Game(Board board, GameRuleValidator gameRuleValidator, GameRuleValidator gameEndValidator, Color turn) {
         this.gameRuleValidator = gameRuleValidator;
+        this.gameEndValidator = gameEndValidator;
         Board[] aux = new Board[]{board};
         this.turns = List.of(aux);
         this.capturedPieces = List.of();
         this.currentTurn = turn;
     }
 
-    private Game(List<Board> turns, GameRuleValidator gameRuleValidator, Color currentTurn) {
+    private Game(List<Board> turns, GameRuleValidator gameRuleValidator, GameRuleValidator gameEndValidator, Color currentTurn) {
         this.turns = turns;
+        this.gameEndValidator = gameEndValidator;
         this.currentTurn = currentTurn;
         this.capturedPieces = List.of();
         this.gameRuleValidator = gameRuleValidator;
     }
 
-    private Game(List<Board> turns, List<Piece> capturedPieces, GameRuleValidator gameRuleValidator, Color currentTurn) {
+    private Game(List<Board> turns, List<Piece> capturedPieces, GameRuleValidator gameRuleValidator, GameRuleValidator gameEndValidator, Color currentTurn) {
         this.turns = turns;
         this.capturedPieces = capturedPieces;
+        this.gameEndValidator = gameEndValidator;
         this.currentTurn = currentTurn;
         this.gameRuleValidator = gameRuleValidator;
     }
@@ -47,16 +51,14 @@ public class Game {
                 return new Result<>(Optional.empty(), true);
             }
             Board newBoard = result.getValue().get();
-            if(!gameRuleValidator.isValid(this)){
-                return new Result<>(Optional.empty(), true);
-            }
             newTurns.add(newBoard);
+            Game newGame = new Game(newTurns, this.gameRuleValidator, gameEndValidator, getOppositeColor(currentTurn));
             if (pieceEaten != null) {
                 List<Piece> newCapturedPieces = new java.util.ArrayList<>(List.copyOf(capturedPieces));
                 newCapturedPieces.add(pieceEaten);
-                return new Result<>(Optional.of(new Game(newTurns, newCapturedPieces, this.gameRuleValidator, getOppositeColor(currentTurn))), false);
+                return new Result<>(Optional.of(new Game(newTurns, newCapturedPieces, this.gameRuleValidator, gameEndValidator, getOppositeColor(currentTurn))), false);
             } else {
-                return new Result<>(Optional.of(new Game(newTurns, this.gameRuleValidator, getOppositeColor(currentTurn))), false);
+                return new Result<>(Optional.of(newGame), false);
             }
         }
         else return new Result<>(Optional.empty(), true);
@@ -66,7 +68,7 @@ public class Game {
         return turns.get(turns.size() - 1);
     }
 
-    private Color getOppositeColor(Color color){
+    public Color getOppositeColor(Color color){
         return color == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 
@@ -80,5 +82,17 @@ public class Game {
 
     public List<Board> getTurns() {
         return turns;
+    }
+
+    public List<Piece> getCapturedPieces() {
+        return capturedPieces;
+    }
+
+    public GameRuleValidator getGameRuleValidator() {
+        return gameRuleValidator;
+    }
+
+    public GameRuleValidator getGameEndValidator() {
+        return gameEndValidator;
     }
 }
