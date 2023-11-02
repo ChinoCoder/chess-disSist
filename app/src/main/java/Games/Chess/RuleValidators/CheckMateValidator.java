@@ -28,9 +28,6 @@ public class CheckMateValidator implements GameRuleValidator {
                 for(Map.Entry<Square, Piece> piece : pieces.entrySet()){
                     Square from = piece.getKey();
                     if (piece.getValue().getColor() == currentPlayer && piece.getValue().getMovements().isValid(currentBoard, from, currentDestination)) {
-                        //Board newBoard = currentBoard.move(from, currentDestination).getValue().get();
-                        //List<Board> newHistory = new ArrayList<>(game.getTurns());
-                        //newHistory.add(newBoard);
                         Game newGame = game.move(from, currentDestination).getValue().get();
                         if (checkValidator.isValid(newGame, from, currentDestination)) return false;
                     }

@@ -1,17 +1,10 @@
 package Games.Chess.Factories;
 
-import Games.Chess.RuleValidators.EatingValidator;
-import Games.Chess.RuleValidators.IsNotFriendlyFireValidator;
-import Games.Chess.RuleValidators.NonEatingValidator;
 import Games.Chess.Type;
 import Games.Commons.Board;
 import Games.Commons.Color;
 import Games.Commons.Piece;
 import Games.Commons.Square;
-import Games.Commons.Validators.AndValidator;
-import Games.Commons.Validators.MovementValidators.*;
-import Games.Commons.Validators.OrValidator;
-import Games.Commons.Validators.Validator;
 
 import java.util.HashMap;
 import java.util.Map;

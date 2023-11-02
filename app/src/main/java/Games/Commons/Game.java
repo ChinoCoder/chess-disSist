@@ -1,5 +1,6 @@
 package Games.Commons;
 
+import Games.Commons.Validators.AndValidator;
 import Games.Commons.Validators.GameRuleValidator;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class Game {
         this.currentTurn = turn;
     }
 
-    private Game(List<Board> turns, GameRuleValidator gameRuleValidator, GameRuleValidator gameEndValidator, Color currentTurn) {
+    public Game(List<Board> turns, GameRuleValidator gameRuleValidator, GameRuleValidator gameEndValidator, Color currentTurn) {
         this.turns = turns;
         this.gameEndValidator = gameEndValidator;
         this.currentTurn = currentTurn;

@@ -1,4 +1,4 @@
-package Games.Chess.RuleValidators;
+package Games.Commons.Validators.MovementValidators;
 
 import Games.Commons.Board;
 import Games.Commons.Square;

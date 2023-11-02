@@ -36,7 +36,7 @@ public class Board {
     }
 
     public Piece getPieceAt(Square square) {
-        return board.get(getSquareByRowAndColumn(square.getRow(), square.getColumn()));
+        return board.get(square);
     }
 
     public boolean getIfSquareHasPieceByRowAndColumn(int targetRow, int targetColumn) {
