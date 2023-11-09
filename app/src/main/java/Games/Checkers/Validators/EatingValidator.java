@@ -1,6 +1,5 @@
 package Games.Checkers.Validators;
 
-import Games.Checkers.Helpers.EatingHelper;
 import Games.Commons.Board;
 import Games.Commons.Square;
 import Games.Commons.Validators.Validator;

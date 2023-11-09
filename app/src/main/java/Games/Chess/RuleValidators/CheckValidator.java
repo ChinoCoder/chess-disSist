@@ -18,6 +18,7 @@ public class CheckValidator implements GameRuleValidator {
         Piece movedPiece = pieces.get(end);
 
         Square kingsSq = getCheckablePiece(currentBoard, movedPiece.getColor());
+        if(kingsSq == null) return true;
         Color enemyColor = movedPiece.getColor() == Color.WHITE ? Color.BLACK : Color.WHITE;
 
         for(Map.Entry<Square, Piece> piece : pieces.entrySet()){
@@ -26,16 +27,6 @@ public class CheckValidator implements GameRuleValidator {
         }
 
         return true;
-    }
-
-    private boolean isPieceChecked(Board board, Square target, Color kingColor){
-        for (Map.Entry<Square, Piece> entry : board.getBoard().entrySet()) {
-            Square square = entry.getKey();
-            if (entry.getValue().getColor() != kingColor && !board.move(square, target).getError()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private Square getCheckablePiece(Board board, Color color){
