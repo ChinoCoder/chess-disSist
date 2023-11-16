@@ -3,14 +3,14 @@ package GameEngine;
 import Games.Checkers.Factories.ClassicCheckersFactory;
 import Games.Checkers.Factories.CustomCheckersFactory;
 import Games.Checkers.Helpers.CheckersHelper;
-import Games.Checkers.Validators.NoMorePiecesValidator;
-import Games.Checkers.Validators.NoPossibleMovesValidator;
+import Games.Checkers.Validators.GameRules.NoMorePiecesValidator;
+import Games.Checkers.Validators.GameRules.NoPossibleMovesValidator;
 import Games.Chess.Factories.ClassicChessFactory;
 import Games.Chess.Factories.CustomChessFactory;
 import Games.Chess.Helpers.ChessHelper;
 import Games.Chess.RuleValidators.CheckMateValidator;
 import Games.Chess.RuleValidators.CheckValidator;
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.*;
 import Games.Commons.Helpers.Helper;
 import Games.Commons.Validators.GameRuleOrValidator;
@@ -60,26 +60,54 @@ public class gameEngine implements GameEngine {
             Scanner reader = new Scanner(System.in);
             System.out.println("Enter a number: ");
             int n = reader.nextInt();
-            if (n == 1) {
-                Board classicBoard = ClassicChessFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.KING), new CheckMateValidator(new CheckValidator(Type.KING)), Color.WHITE);
-                this.helper = new ChessHelper();
-            } else if (n == 2) {
-                Board classicBoard = ClassicCheckersFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.BISHOP), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
-                this.helper = new CheckersHelper();
-            } else if (n == 3) {
-                Board classicBoard = CustomChessFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.KING), new CheckMateValidator(new CheckValidator(Type.KING)), Color.WHITE);
-                this.helper = new ChessHelper();
-            } else if (n == 4) {
-                Board classicBoard = CustomCheckersFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.BISHOP), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
-                this.helper = new CheckersHelper();
-            } else {
-                System.out.println("Invalid input");
-                return init();
+
+            Board classicBoard;
+            GameRuleValidator gameRuleVali;
+            GameRuleValidator gameEndVali;
+            Color playerColor;
+            Helper gameHelper;
+
+            switch (n) {
+                case 1:
+                    classicBoard = ClassicChessFactory.createBoard();
+                    gameRuleVali = new CheckValidator(Type.KING);
+                    gameEndVali = new CheckMateValidator(new CheckValidator(Type.KING));
+                    playerColor = Color.WHITE;
+                    gameHelper = new ChessHelper();
+                    break;
+                case 2:
+                    classicBoard = ClassicCheckersFactory.createBoard();
+                    gameRuleVali = new CheckValidator(Type.BISHOP);
+                    gameEndVali = new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()});
+                    playerColor = Color.BLACK;
+                    gameHelper = new CheckersHelper();
+                    break;
+                case 3:
+                    classicBoard = CustomChessFactory.createBoard();
+                    gameRuleVali = new CheckValidator(Type.KING);
+                    gameEndVali = new CheckMateValidator(new CheckValidator(Type.KING));
+                    playerColor = Color.WHITE;
+                    gameHelper = new ChessHelper();
+                    break;
+                case 4:
+                    classicBoard = CustomCheckersFactory.createBoard();
+                    gameRuleVali = new CheckValidator(Type.BISHOP);
+                    gameEndVali = new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()});
+                    playerColor = Color.BLACK;
+                    gameHelper = new CheckersHelper();
+                    break;
+                default:
+                    System.out.println("Invalid input. Creating basic chess.");
+                    classicBoard = ClassicChessFactory.createBoard();
+                    gameRuleVali = new CheckValidator(Type.KING);
+                    gameEndVali = new CheckMateValidator(new CheckValidator(Type.KING));
+                    playerColor = Color.WHITE;
+                    gameHelper = new ChessHelper();
+                    break;
             }
+
+            this.game = new Game(classicBoard, gameRuleVali, gameEndVali, playerColor);
+            this.helper = gameHelper;
         }
         return new InitialState(Adapter.getBoardSize(this.game.getCurrentTurn()), Adapter.getCurrentPieces(this.game.getCurrentTurn()), Adapter.getCurrentTurn(this.game));
     }

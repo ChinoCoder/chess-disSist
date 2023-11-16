@@ -1,7 +1,7 @@
 package Games.Checkers.Helpers;
 
 import Games.Checkers.Factories.CheckersPieceFactory;
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.Color;
 import Games.Commons.Helpers.PromoteHelper;
 import Games.Commons.Piece;

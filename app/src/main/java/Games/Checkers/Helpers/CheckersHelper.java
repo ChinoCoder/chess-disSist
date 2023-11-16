@@ -1,8 +1,8 @@
 package Games.Checkers.Helpers;
 
 import Games.Checkers.Validators.CanEatValidator;
-import Games.Checkers.Validators.HasEatenValidator;
-import Games.Chess.Type;
+import Games.Checkers.Validators.GameRules.HasEatenValidator;
+import Games.Commons.Type;
 import Games.Commons.Board;
 import Games.Commons.Game;
 import Games.Commons.Helpers.Helper;

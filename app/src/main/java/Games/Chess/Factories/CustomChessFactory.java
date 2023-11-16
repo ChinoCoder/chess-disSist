@@ -1,6 +1,6 @@
 package Games.Chess.Factories;
 
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.Board;
 import Games.Commons.Color;
 import Games.Commons.Piece;

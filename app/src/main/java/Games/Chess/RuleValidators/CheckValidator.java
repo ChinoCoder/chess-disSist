@@ -1,6 +1,6 @@
 package Games.Chess.RuleValidators;
 
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.*;
 import Games.Commons.Validators.GameRuleValidator;
 

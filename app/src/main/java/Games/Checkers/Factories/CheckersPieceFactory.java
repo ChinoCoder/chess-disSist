@@ -2,7 +2,7 @@ package Games.Checkers.Factories;
 
 import Games.Checkers.Validators.EatingValidator;
 import Games.Chess.RuleValidators.IsNotFriendlyFireValidator;
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.Color;
 import Games.Commons.Piece;
 import Games.Commons.Validators.AndValidator;

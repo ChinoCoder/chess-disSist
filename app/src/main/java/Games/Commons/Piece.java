@@ -1,6 +1,5 @@
 package Games.Commons;
 
-import Games.Chess.Type;
 import Games.Commons.Validators.OrValidator;
 
 public class Piece {

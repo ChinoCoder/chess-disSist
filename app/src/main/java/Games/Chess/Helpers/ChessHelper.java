@@ -1,6 +1,6 @@
 package Games.Chess.Helpers;
 
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.Game;
 import Games.Commons.Helpers.Helper;
 import Games.Commons.Square;

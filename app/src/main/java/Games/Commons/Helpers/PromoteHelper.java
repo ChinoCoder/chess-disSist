@@ -1,9 +1,7 @@
 package Games.Commons.Helpers;
 
-import Games.Checkers.Factories.CheckersPieceFactory;
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.*;
-import Games.Commons.Helpers.Helper;
 
 import java.util.HashMap;
 import java.util.List;

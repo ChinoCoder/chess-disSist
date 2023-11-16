@@ -1,7 +1,7 @@
 package Games.Chess.Helpers;
 
 import Games.Chess.Factories.PieceFactory;
-import Games.Chess.Type;
+import Games.Commons.Type;
 import Games.Commons.Color;
 import Games.Commons.Helpers.PromoteHelper;
 import Games.Commons.Piece;

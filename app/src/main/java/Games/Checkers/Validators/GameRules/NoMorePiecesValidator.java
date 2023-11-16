@@ -1,4 +1,4 @@
-package Games.Checkers.Validators;
+package Games.Checkers.Validators.GameRules;
 
 import Games.Commons.Board;
 import Games.Commons.Game;
