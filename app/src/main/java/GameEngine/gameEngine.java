@@ -12,6 +12,7 @@ import Games.Chess.RuleValidators.CheckMateValidator;
 import Games.Chess.RuleValidators.CheckValidator;
 import Games.Chess.Type;
 import Games.Commons.*;
+import Games.Commons.Helpers.Helper;
 import Games.Commons.Validators.GameRuleOrValidator;
 import Games.Commons.Validators.GameRuleValidator;
 import edu.austral.dissis.chess.gui.*;
@@ -65,7 +66,7 @@ public class gameEngine implements GameEngine {
                 this.helper = new ChessHelper();
             } else if (n == 2) {
                 Board classicBoard = ClassicCheckersFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.KING), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
+                this.game = new Game(classicBoard, new CheckValidator(Type.BISHOP), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
                 this.helper = new CheckersHelper();
             } else if (n == 3) {
                 Board classicBoard = CustomChessFactory.createBoard();
@@ -73,7 +74,7 @@ public class gameEngine implements GameEngine {
                 this.helper = new ChessHelper();
             } else if (n == 4) {
                 Board classicBoard = CustomCheckersFactory.createBoard();
-                this.game = new Game(classicBoard, new CheckValidator(Type.KING), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
+                this.game = new Game(classicBoard, new CheckValidator(Type.BISHOP), new GameRuleOrValidator(new GameRuleValidator[]{new NoMorePiecesValidator(), new NoPossibleMovesValidator()}), Color.BLACK);
                 this.helper = new CheckersHelper();
             } else {
                 System.out.println("Invalid input");

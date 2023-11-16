@@ -5,7 +5,8 @@ import Games.Checkers.Validators.HasEatenValidator;
 import Games.Chess.Type;
 import Games.Commons.Board;
 import Games.Commons.Game;
-import Games.Commons.Helper;
+import Games.Commons.Helpers.Helper;
+import Games.Commons.Helpers.PromoteHelper;
 import Games.Commons.Square;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class CheckersHelper implements Helper {
     private final HasEatenValidator hasEatenValidator = new HasEatenValidator();
     private final CanEatValidator canEatValidator = new CanEatValidator();
-    private final CheckersPromoteHelper checkersPromoteHelper = new CheckersPromoteHelper(Type.PAWN);
+    private final PromoteHelper checkersPromoteHelper = new CheckersPromotionHelper(Type.PAWN);
 
     private Game helpEat(Game game, Square start, Square end){
         if (hasEatenValidator.isValid(game, start, end)){

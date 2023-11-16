@@ -12,7 +12,7 @@ import Games.Commons.Validators.MovementValidators.NonEatingValidator;
 import Games.Commons.Validators.OrValidator;
 import Games.Commons.Validators.Validator;
 
-public class CheckersPieceFactory {
+public class CheckersPieceFactory{
     private static int index = 0;
 
     private static final AndValidator nonEatingDiagonal = new AndValidator(new Validator[]{new DiagonalTileMovementValidator(1), new ForwardMovementValidator(), new NonEatingValidator(), new IsNotFriendlyFireValidator()});

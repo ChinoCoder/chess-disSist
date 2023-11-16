@@ -3,6 +3,7 @@
  */
 package edu.austral.dissis.chess
 
+import Network.Client.GameClient
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
@@ -10,30 +11,24 @@ import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.scene.Scene
 import javafx.stage.Stage
-import GameEngine.*
-import Network.Server.GameServer
-import edu.austral.ingsis.clientserver.netty.server.NettyServerBuilder
+import edu.austral.ingsis.clientserver.netty.client.NettyClientBuilder
 
 
 fun main() {
-    launch(ChessGameServer::class.java)
+    launch(ChessGameClient2::class.java)
 }
 
-class ChessGameServer : Application() {
-    private val gameEngine = gameEngine()
+class ChessGameClient2 : Application() {
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     private val root = GameView(imageResolver)
-    private val server = NettyServerBuilder.createDefault()
-    private val gameServer : GameServer =
-        GameServer(gameEngine, server)
-
-    companion object {
-        const val GameTitle = "Chess"
-    }
+    private val builder = NettyClientBuilder.createDefault()
+    private val client = GameClient(root, builder)
 
     override fun start(primaryStage: Stage) {
-        primaryStage.title = GameTitle
+        primaryStage.title = "Network/Client"
 
         primaryStage.scene = Scene(root)
+
+        primaryStage.show()
     }
 }

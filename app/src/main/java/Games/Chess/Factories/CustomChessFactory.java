@@ -9,13 +9,13 @@ import Games.Commons.Square;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomChessFactory{
+public class CustomChessFactory {
 
     public static Board createBoard() {
-        return new Board(createMap(), 10, 10);
+        return new Board(easyMap(), 9, 9);
     }
 
-    private static Map<Square, Piece> createMap(){
+    private static Map<Square, Piece> createMap() {
         Square[] squares = new Square[100];
 
         int index = 0;
@@ -68,6 +68,27 @@ public class CustomChessFactory{
         board.put(squares[97], PieceFactory.createPiece(Type.BISHOP, Color.BLACK));
         board.put(squares[98], PieceFactory.createPiece(Type.KNIGHT, Color.BLACK));
         board.put(squares[99], PieceFactory.createPiece(Type.ROOK, Color.BLACK));
+
+        return board;
+    }
+
+    private static Map<Square, Piece> easyMap() {
+        Square[] squares = new Square[81];
+
+        int index = 0;
+
+        for (int row = 1; row <= 9; row++) {
+            for (int column = 1; column <= 9; column++) {
+                squares[index] = new Square(row, column);
+                index++;
+            }
+        }
+        Map<Square, Piece> board = new HashMap<>();
+
+        board.put(squares[0], PieceFactory.createPiece(Type.ARCHBISHOP, Color.WHITE));
+        board.put(squares[1], PieceFactory.createPiece(Type.KING, Color.WHITE));
+        board.put(squares[65], PieceFactory.createPiece(Type.ARCHBISHOP, Color.BLACK));
+        board.put(squares[80], PieceFactory.createPiece(Type.KING, Color.BLACK));
 
         return board;
     }
